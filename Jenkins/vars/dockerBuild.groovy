@@ -1,9 +1,6 @@
 def call(Map params){
-    sh """
-        version=$(cat VERSION)
-        docker build -t ${params.name} ${params.path}
-        docker tag ${params.name} ${params.name}:\$version
-        docker tag ${params.name} ${params.name}:${BUILD_NUMBER}
-        docker images
-    """
+    version = readFile('VERSION').replace("\n","").replace("\r", "")
+    sh "docker build -t ${params.name} ${params.path}"
+    sh "docker tag ${params.name} ${params.name}:${version}"
+    sh "docker images"
 }
