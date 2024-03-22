@@ -4,5 +4,10 @@ def call(){
     // Get short git commit
     sh "git rev-parse --short HEAD > commit-id"
     env.tag = readFile('commit-id').replace("\n", "").replace("\r", "")
+    if(env.version.startsWith("prod")){
+        env.environment = "prod"
+    }else {
+        env.environment = "dev"
+    }
 }
     
